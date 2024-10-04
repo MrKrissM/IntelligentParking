@@ -1,0 +1,11 @@
+<h2>Estado del Estacionamiento</h2>
+<p>Espacios disponibles: {{ espaciosDisponibles }}</p>
+
+<div class="estacionamiento-grid">
+  <div *ngFor="let espacio of espacios" 
+       class="espacio" 
+       [class.ocupado]="espacio.ocupado"
+       (click)="toggleOcupacion(espacio)">
+    {{ espacio.id }}
+  </div>
+</div>

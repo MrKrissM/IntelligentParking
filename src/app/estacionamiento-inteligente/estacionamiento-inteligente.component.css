@@ -1,0 +1,19 @@
+.estacionamiento-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .espacio {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .espacio.ocupado {
+    background-color: #F44336;
+  }
