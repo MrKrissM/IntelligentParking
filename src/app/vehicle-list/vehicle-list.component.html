@@ -1,0 +1,6 @@
+<h2>Lista de Vehículos</h2>
+<ul>
+  @for (vehicle of vehicles; track vehicle.id) {
+    <li>{{ vehicle.plate }} - {{ vehicle.type }}</li>
+  }
+</ul>

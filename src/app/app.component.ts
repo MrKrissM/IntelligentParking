@@ -1,15 +1,19 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { EstacionamientoInteligenteComponent } from './estacionamiento-inteligente/estacionamiento-inteligente.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, EstacionamientoInteligenteComponent],
-  templateUrl: './app.component.html',
+  imports: [RouterOutlet, HeaderComponent, FooterComponent],
+  template: `
+    <app-header></app-header>
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
+  `,
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Estacionamiento Inteligente';
+  title = 'smart-parking-app';
 }

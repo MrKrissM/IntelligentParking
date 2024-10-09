@@ -1,0 +1,3 @@
+<div *ngIf="toast" [ngClass]="{'toast': true, 'success': toast.type === 'success', 'error': toast.type === 'error', 'info': toast.type === 'info'}">
+    {{ toast.message }}
+  </div>

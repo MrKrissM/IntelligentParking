@@ -1,0 +1,6 @@
+<h2>Dashboard de Estacionamiento</h2>
+<div *ngFor="let parkingLot of parkingLots">
+  <h3>{{ parkingLot.name }}</h3>
+  <p>Espacios totales: {{ parkingLot.totalSpots }}</p>
+  <p>Espacios disponibles: {{ parkingLot.availableSpots }}</p>
+</div>

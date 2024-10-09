@@ -1,0 +1,28 @@
+<h3>Registrar Ocupación</h3>
+<form [formGroup]="occupationForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="parkingLotName">Estacionamiento:</label>
+    <input type="text" id="parkingLotName" formControlName="parkingLotName">
+    <div *ngIf="occupationForm.get('parkingLotName')?.errors?.['required'] && occupationForm.get('parkingLotName')?.touched">
+      El nombre del estacionamiento es requerido.
+    </div>
+  </div>
+  <div>
+    <label for="parkingSpotNumber">Número de Espacio:</label>
+    <input type="text" id="parkingSpotNumber" formControlName="parkingSpotNumber">
+    <div *ngIf="occupationForm.get('parkingSpotNumber')?.errors?.['required'] && occupationForm.get('parkingSpotNumber')?.touched">
+      El número de espacio es requerido.
+    </div>
+  </div>
+  <div>
+    <label for="vehiclePlate">Placa del Vehículo:</label>
+    <input type="text" id="vehiclePlate" formControlName="vehiclePlate">
+    <div *ngIf="occupationForm.get('vehiclePlate')?.errors?.['required'] && occupationForm.get('vehiclePlate')?.touched">
+      La placa del vehículo es requerida.
+    </div>
+    <div *ngIf="occupationForm.get('vehiclePlate')?.errors?.['invalidPlate']">
+      Formato de placa inválido.
+    </div>
+  </div>
+  <button type="submit" [disabled]="occupationForm.invalid">Registrar Ocupación</button>
+</form>

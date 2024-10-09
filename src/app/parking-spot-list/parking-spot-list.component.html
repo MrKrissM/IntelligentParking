@@ -1,0 +1,13 @@
+<h3>Espacios de Estacionamiento</h3>
+<ul>
+  @for (spot of parkingSpots; track spot.id) {
+    <li>
+      {{ spot.number }} - 
+      @if (spot.isOccupied) {
+        <span class="occupied">Ocupado</span>
+      } @else {
+        <span class="available">Disponible</span>
+      }
+    </li>
+  }
+</ul>

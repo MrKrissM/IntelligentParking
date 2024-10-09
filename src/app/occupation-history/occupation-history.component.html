@@ -1,0 +1,21 @@
+<h2>Historial de Ocupaciones</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Estacionamiento</th>
+      <th>Espacio</th>
+      <th>Vehículo</th>
+      <th>Fecha de Inicio</th>
+      <th>Fecha de Fin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let occupation of occupations">
+      <td>{{ occupation.parkingLotName }}</td>
+      <td>{{ occupation.parkingSpotNumber }}</td>
+      <td>{{ occupation.vehiclePlate }}</td>
+      <td>{{ occupation.startTime | date:'short' }}</td>
+      <td>{{ occupation.endTime | date:'short' }}</td>
+    </tr>
+  </tbody>
+</table>
