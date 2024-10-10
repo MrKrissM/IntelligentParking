@@ -1,0 +1,23 @@
+.header {
+    background-color: #002855;
+    color: white;
+    padding: 20px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); /* Agrega una sombra para destacar el encabezado */
+  }
+  
+  .header nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .header nav li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .header nav li a:hover {
+    background-color: #004782; /* Azul marino más claro */
+  }
