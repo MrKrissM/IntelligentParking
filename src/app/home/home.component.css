@@ -1,0 +1,16 @@
+.hero {
+    background-color: #002855; /* Azul marino oscuro */
+    color: white;
+    text-align: center;
+    padding: 100px 0; /* Ajusta el padding según tu preferencia */
+  }
+  
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .main-content {
+    padding: 40px;
+    background-color: #f0f0f0; /* Fondo gris claro para el contenido */
+  }
