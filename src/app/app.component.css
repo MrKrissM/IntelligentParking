@@ -1,5 +1,35 @@
-:host {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
+/* app.component.css */
+
+/* Estilos generales para asegurar un layout moderno y flexible */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f9;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main-content {
+  flex-grow: 1; /* Hace que la sección principal crezca para ocupar el espacio restante */
+  padding-top: 60px;
+  padding-bottom: 40px;
+  background-color: #ffffff;
+}
+
+/* Asegura que el encabezado y pie de página siempre estén fijos en su lugar */
+app-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+app-footer {
+  position: sticky;
+  bottom: 0;
+}
