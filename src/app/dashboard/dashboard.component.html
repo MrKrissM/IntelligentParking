@@ -1,6 +1,41 @@
-<h2>Dashboard de Estacionamiento</h2>
-<div *ngFor="let parkingLot of parkingLots">
-  <h3>{{ parkingLot.name }}</h3>
-  <p>Espacios totales: {{ parkingLot.totalSpots }}</p>
-  <p>Espacios disponibles: {{ parkingLot.availableSpots }}</p>
-</div>
+<div class="dashboard-container">
+  <!-- Barra lateral -->
+  <nav class="sidebar">
+    <h3>Menu</h3>
+    <ul>
+      <li><a routerLink="/login">Login</a></li>
+      <li><a routerLink="/register">Register</a></li>
+      <li><a routerLink="/user-profile">User Profile</a></li>
+      <li><a routerLink="/vehicle-list">Vehicle List</a></li>
+    </ul>
+  </nav>
+
+  <!-- Contenido del dashboard -->
+  <div class="dashboard-content">
+    <div class="dashboard-header">
+      <h2>Parking Dashboard</h2>
+    </div>
+
+    <!-- Tarjetas informativas -->
+    <div class="cards-container">
+      <div class="card">
+        <h3>Available Spaces</h3>
+        <p>{{ availableSpaces }}</p>
+      </div>
+      <div class="card">
+        <h3>Total Cars</h3>
+        <p>{{ totalCars }}</p>
+      </div>
+      <div class="card">
+        <h3>Revenue</h3>
+        <p>\${{ revenue }}</p>
+      </div>
+    </div>
+
+    <!-- Grid de espacios de estacionamiento -->
+    <div class="parking-grid">
+      <h3>Parking Spaces</h3>
+      <div class="parking-spaces">
+        <div *ngFor="let space of parkingSpaces"
+             class="parking-space"
+             [ngClass]="{ 'occupied': space.occupied, 'free': !space.occupied }">

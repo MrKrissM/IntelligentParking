@@ -1,23 +1,17 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VehicleService } from '../services/vehicle.service';
+import { Component } from '@angular/core';
+import { RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-vehicle-list',
   standalone: true,
-  imports: [CommonModule],
+  selector: 'app-vehicle-list',
+  imports: [RouterOutlet,CommonModule,RouterModule],
   templateUrl: './vehicle-list.component.html',
   styleUrls: ['./vehicle-list.component.css']
 })
-export class VehicleListComponent implements OnInit {
-  vehicles: any[] = [];
-
-  constructor(private vehicleService: VehicleService) {}
-
-  ngOnInit() {
-    this.vehicleService.getVehicles().subscribe({
-      next: (data) => this.vehicles = data,
-      error: (err) => console.error('Error al obtener vehículos', err)
-    });
-  }
+export class VehicleListComponent {
+  vehicles = [
+    { id: 1, model: 'Toyota Corolla', license: 'ABC123' },
+    { id: 2, model: 'Honda Civic', license: 'XYZ789' }
+  ];
 }

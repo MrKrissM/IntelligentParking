@@ -1,6 +1,8 @@
-<h2>Lista de Vehículos</h2>
-<ul>
-  @for (vehicle of vehicles; track vehicle.id) {
-    <li>{{ vehicle.plate }} - {{ vehicle.type }}</li>
-  }
-</ul>
+<div class="vehicle-list-container">
+  <h2>Vehicle List</h2>
+  <ul>
+    <li *ngFor="let vehicle of vehicles">
+      {{ vehicle.model }} - {{ vehicle.license }}
+    </li>
+  </ul>
+</div>

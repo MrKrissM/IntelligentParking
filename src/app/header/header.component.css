@@ -1,23 +1,31 @@
 .header {
-    background-color: #002855;
-    color: white;
-    padding: 20px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); /* Agrega una sombra para destacar el encabezado */
-  }
-  
-  .header nav ul {
-    list-style: none;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #2f3e46;
+    color: white;
   }
   
-  .header nav li a {
+  .logo h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  nav ul li a {
     color: white;
     text-decoration: none;
-    padding: 10px;
-    border-radius: 5px;
+    transition: color 0.2s;
   }
   
-  .header nav li a:hover {
-    background-color: #004782; /* Azul marino más claro */
+  nav ul li a:hover {
+    color: #ff4d4f;
   }
+  
+
