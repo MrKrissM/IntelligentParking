@@ -6,15 +6,16 @@ import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AboutComponent } from './about/about.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { VehicleComponent } from './vehicle/vehicle.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'vehicle/:id', component: VehicleListComponent },
+  { path: 'vehicle', component: VehicleComponent },
   { path: 'user-profile', component: UserProfileComponent },
   { path: 'about', component: AboutComponent },
-
+  
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent },
 
