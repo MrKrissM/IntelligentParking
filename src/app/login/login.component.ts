@@ -10,4 +10,6 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {}
+export class LoginComponent {
+  
+}

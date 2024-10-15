@@ -2,7 +2,7 @@
   <h2>Vehicle List</h2>
   <ul>
     <li *ngFor="let vehicle of vehicles">
-      {{ vehicle.model }} - {{ vehicle.license }}
-    </li>
+      <a [routerLink]="['/vehicle', vehicle.id]">{{ vehicle.license }}
+      </a>
   </ul>
 </div>
