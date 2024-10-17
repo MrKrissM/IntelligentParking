@@ -1,1 +1,64 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --navy-dark: #1a237e;
+    --navy-medium: #283593;
+    --navy-light: #3949ab;
+    --accent-color: #ffc107;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+  }
+  
+  .btn-navy {
+    background-color: var(--navy-medium);
+    border-color: var(--navy-medium);
+    color: white;
+  }
+  
+  .btn-navy:hover {
+    background-color: var(--navy-dark);
+    border-color: var(--navy-dark);
+    color: white;
+  }
+  
+  .card {
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .navbar-navy {
+    background-color: var(--navy-dark);
+  }
+  
+  .sidebar {
+    background-color: var(--navy-medium);
+    color: white;
+  }
+  
+  .sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+    margin-bottom: 5px;
+  }
+  
+  .sidebar .nav-link:hover, .sidebar .nav-link.active {
+    background-color: var(--navy-light);
+    color: white;
+  }
+  
+  .main-content {
+    margin-left: 250px;
+  }
+  
+  @media (max-width: 768px) {
+    .main-content {
+      margin-left: 0;
+    }
+  }
+

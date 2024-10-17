@@ -1,0 +1,60 @@
+<div class="d-flex">
+    <!-- Sidebar -->
+    <nav id="sidebar" class="sidebar d-flex flex-column flex-shrink-0 p-3" style="width: 250px; height: 100vh;">
+      <a routerLink="/dashboard" href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <span class="fs-4">Smart Parking</span>
+      </a>
+      <hr>
+      <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+          <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
+            <i class="fas fa-tachometer-alt me-2"></i>
+            Dashboard
+          </a>
+        </li>
+        <li>
+          <a routerLink="/parking-map" routerLinkActive="active" class="nav-link">
+            <i class="fas fa-map-marked-alt me-2"></i>
+            Mapa de Estacionamiento
+          </a>
+        </li>
+        <li>
+          <a routerLink="/reservations" routerLinkActive="active" class="nav-link">
+            <i class="fas fa-calendar-alt me-2"></i>
+            Reservaciones
+          </a>
+        </li>
+        <li>
+          <a routerLink="/vehicles" routerLinkActive="active" class="nav-link">
+            <i class="fas fa-car me-2"></i>
+            Vehículos
+          </a>
+        </li>
+        <li>
+          <a routerLink="/reports" routerLinkActive="active" class="nav-link">
+            <i class="fas fa-chart-bar me-2"></i>
+            Reportes
+          </a>
+        </li>
+      </ul>
+      <hr>
+      <div class="dropdown">
+        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="https://github.com/mdo.png" alt="Usuario" width="32" height="32" class="rounded-circle me-2">
+          <strong>Usuario</strong>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+          <li><a class="dropdown-item" routerLink="/user-profile">Perfil</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item" href="#" (click)="logout()">Cerrar Sesión</a> <!-- Aquí llamamos a la función de logout -->
+          </li>
+        </ul>
+      </div>
+    </nav>
+    
+    <!-- Main content -->
+    <div class="main-content flex-grow-1 p-3">
+      <router-outlet></router-outlet>
+    </div>
+  </div>

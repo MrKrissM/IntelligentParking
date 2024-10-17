@@ -1,41 +1,63 @@
-<div class="dashboard-container">
-  <!-- Barra lateral -->
-  <nav class="sidebar">
-    <h3>Menu</h3>
-    <ul>
-      <li><a routerLink="/login">Login</a></li>
-      <li><a routerLink="/register">Register</a></li>
-      <li><a routerLink="/user-profile">User Profile</a></li>
-      <li><a routerLink="/vehicle">Vehicle List</a></li>
-    </ul>
-  </nav>
+<div class="container-fluid">
+  <h1 class="mb-4">Dashboard de Estacionamiento</h1>
 
-  <!-- Contenido del dashboard -->
-  <div class="dashboard-content">
-    <div class="dashboard-header">
-      <h2>Parking Dashboard</h2>
-    </div>
-
-    <!-- Tarjetas informativas -->
-    <div class="cards-container">
-      <div class="card">
-        <h3>Available Spaces</h3>
-        <p>{{ availableSpaces }}</p>
-      </div>
-      <div class="card">
-        <h3>Total Cars</h3>
-        <p>{{ totalCars }}</p>
-      </div>
-      <div class="card">
-        <h3>Revenue</h3>
-        <p>\${{ revenue }}</p>
+  <div class="row">
+    <div class="col-md-3 mb-4">
+      <div class="card bg-primary text-white">
+        <div class="card-body">
+          <h5 class="card-title">Espacios Disponibles</h5>
+          <p class="card-text display-4">{{ availableSpaces }}</p>
+        </div>
       </div>
     </div>
+    <div class="col-md-3 mb-4">
+      <div class="card bg-success text-white">
+        <div class="card-body">
+          <h5 class="card-title">Espacios Ocupados</h5>
+          <p class="card-text display-4">{{ occupiedSpaces }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-4">
+      <div class="card bg-info text-white">
+        <div class="card-body">
+          <h5 class="card-title">Ingresos del Día</h5>
+          <p class="card-text display-4">${{ dailyRevenue | number:'1.2-2' }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-4">
+      <div class="card bg-warning text-dark">
+        <div class="card-body">
+          <h5 class="card-title">Reservaciones Activas</h5>
+          <p class="card-text display-4">{{ activeReservations }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <!-- Grid de espacios de estacionamiento -->
-    <div class="parking-grid">
-      <h3>Parking Spaces</h3>
-      <div class="parking-spaces">
-        <div *ngFor="let space of parkingSpaces"
-             class="parking-space"
-             [ngClass]="{ 'occupied': space.occupied, 'free': !space.occupied }">
+  <div class="row">
+    <div class="col-md-8 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Resumen del Estacionamiento</h5>
+          <div class="parking-chart">
+            <!-- Aquí iría tu gráfico -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Actividad Reciente</h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let activity of recentActivities">
+              <strong>{{ activity.time }}</strong> - {{ activity.description }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,34 +1,37 @@
 import { Component, OnInit } from '@angular/core';
-import { ParkingService } from '../services/parking.service';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-dashboard',
-  imports: [RouterOutlet,CommonModule,RouterModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
-  // Datos ficticios para las tarjetas
+export class DashboardComponent implements OnInit {
   availableSpaces: number = 25;
-  totalCars: number = 75;
-  revenue: number = 1230;
+  occupiedSpaces: number = 75;
+  dailyRevenue: number = 1230.50;
+  activeReservations: number = 8;
 
-  // Estado de los espacios del estacionamiento (true: ocupado, false: libre)
-  parkingSpaces = [
-    { id: 1, occupied: true },
-    { id: 2, occupied: false },
-    { id: 3, occupied: true },
-    { id: 4, occupied: false },
-    { id: 5, occupied: true },
-    { id: 6, occupied: false },
-    { id: 7, occupied: true },
-    { id: 8, occupied: false },
-    { id: 9, occupied: true },
-    { id: 10, occupied: false },
-    { id: 11, occupied: true },
-    { id: 12, occupied: false }
+  recentActivities = [
+    { time: '10:30 AM', description: 'Vehículo ingresó al espacio A-12' },
+    { time: '10:15 AM', description: 'Nueva reservación para mañana' },
+    { time: '09:45 AM', description: 'Vehículo salió del espacio B-05' },
+    { time: '09:30 AM', description: 'Pago recibido por reservación #1234' },
   ];
+
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    // Aquí puedes cargar datos reales desde un servicio
+  }
+
+  logout() {
+    // Implementa la lógica de cierre de sesión aquí
+    localStorage.removeItem('isLoggedIn');
+    this.router.navigate(['/login']);
+  }
 }
