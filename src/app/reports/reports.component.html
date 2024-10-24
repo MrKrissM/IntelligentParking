@@ -1,0 +1,64 @@
+<div class="reports-container">
+    <h2 class="page-title">Reportes</h2>
+  
+    <!-- Sección de filtros para reportes -->
+    <div class="report-filters">
+      <h3 class="filter-title">Filtrar Reportes</h3>
+      <form>
+        <div class="form-group">
+          <label for="dateFrom">Desde:</label>
+          <input type="date" id="dateFrom" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="dateTo">Hasta:</label>
+          <input type="date" id="dateTo" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="reportType">Tipo de Reporte:</label>
+          <select id="reportType" class="form-control">
+            <option value="occupancy">Ocupación del Estacionamiento</option>
+            <option value="revenue">Ingresos</option>
+            <option value="vehicles">Vehículos Registrados</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Generar Reporte</button>
+      </form>
+    </div>
+  
+    <!-- Sección para mostrar gráficos de reportes -->
+    <div class="report-graphs mt-4">
+      <h3 class="graph-title">Gráficos de Reportes</h3>
+      <div class="graph-placeholder">
+        <!-- Aquí podrías integrar una gráfica usando Chart.js u otra biblioteca -->
+        <img src="assets/images/placeholder-graph.png" alt="Gráfico de ejemplo" class="graph-image">
+      </div>
+    </div>
+  
+    <!-- Tabla para mostrar los datos de los reportes -->
+    <div class="report-table mt-4">
+      <h3 class="table-title">Detalles de Reportes</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Fecha</th>
+            <th>Descripción</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let report of reports; index as i">
+            <td>{{ i + 1 }}</td>
+            <td>{{ report.date }}</td>
+            <td>{{ report.description }}</td>
+            <td>{{ report.value }}</td>
+          </tr>
+          <!-- Si no hay reportes, mostrar un mensaje -->
+          <tr *ngIf="reports.length === 0">
+            <td colspan="4" class="text-center">No hay reportes disponibles.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
