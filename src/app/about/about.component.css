@@ -85,6 +85,7 @@
     font-size: 2rem;
     color: #333333;
     margin-bottom: 10px;
+    text-align: center;
   }
   
   .about-mission p, .about-use-cases p {
@@ -93,5 +94,8 @@
     line-height: 1.8;
     max-width: 800px;
     margin: 0 auto;
+  }
+  .about-features{
+    text-align: center;
   }
   

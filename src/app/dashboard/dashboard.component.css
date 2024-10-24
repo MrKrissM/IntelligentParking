@@ -81,6 +81,7 @@
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
   margin-bottom: 30px;
+  
 }
 
 .card {
@@ -89,6 +90,8 @@
   padding: 20px;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+  
 }
 
 .card h3 {
@@ -128,8 +131,45 @@
   color: #4a5568;
 }
 
+
 .parking-chart {
-  /* Estilos para el gráfico */
-  height: 200px;
-  /* Añade estilos específicos según la librería de gráficos que uses */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.parking-lot {
+  display:grid;
+  grid-template-columns: repeat(10, 1fr); /* Muestra 5 columnas de espacios */
+  gap: 70px;
+  margin-top: 20px;
+}
+
+.parking-space {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: #e9ecef;
+}
+
+.parking-space.available {
+  background-color: #28a745; /* Verde para espacios disponibles */
+  color: white;
+}
+
+.parking-space.occupied {
+  background-color: #dc3545; /* Rojo para espacios ocupados */
+  color: white;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.h1{
+  text-align: center;
 }

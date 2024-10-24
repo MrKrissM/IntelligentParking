@@ -3,15 +3,38 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   standalone: true,
   selector: 'app-dashboard',
-  imports: [CommonModule, RouterModule,HeaderComponent],
+  imports: [CommonModule, RouterModule,HeaderComponent,FormsModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  parkingSpaces = [
+    { occupied: true },
+    { occupied: false },
+    { occupied: false },
+    { occupied: true },
+    { occupied: true },
+    { occupied: false },
+    { occupied: false },
+    { occupied: true },
+    { occupied: false },
+    { occupied: true },
+    { occupied: true },
+    { occupied: false },
+    { occupied: false },
+    { occupied: true },
+    { occupied: true },
+    { occupied: false },
+    { occupied: true },
+    { occupied: true },
+    { occupied: false },
+    { occupied: true }
+  ];
   availableSpaces: number = 25;
   occupiedSpaces: number = 75;
   dailyRevenue: number = 1230.50;
