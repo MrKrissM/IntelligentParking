@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ParkingService } from '../services/parking.service';
-import { ErrorHandlingService } from '../services/error-handling.service';
+import { ParkingService } from '../services/parking/parking.service';
+import { ErrorHandlingService } from '../services/error-handling/error-handling.service';
 import { CommonModule } from '@angular/common';
 
 

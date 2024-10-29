@@ -1,0 +1,6 @@
+.sidebar {
+    width: 250px;
+    height: 100vh; /* Ajuste a la altura del viewport */
+    background-color: #000563;
+    color: #fff; /* Color de texto por defecto */
+  }

@@ -1,4 +1,3 @@
-// ... (Código anterior de rutas y MainLayoutComponent se mantiene)
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';

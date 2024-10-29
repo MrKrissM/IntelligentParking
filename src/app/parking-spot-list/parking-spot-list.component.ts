@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ParkingService } from '../services/parking.service';
+import { ParkingService } from '../services/parking/parking.service';
 
 @Component({
   selector: 'app-parking-spot-list',

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ToastService, Toast } from '../services/toast.service';
+import { ToastService, Toast } from '../services/toast/toast.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ToastComponent implements OnInit, OnDestroy {
   toast: Toast | null = null;
-  private subscription: Subscription | null = null; // Inicializa subscription con null
+  private subscription: Subscription | null = null; 
 
   constructor(private toastService: ToastService) {
   }
