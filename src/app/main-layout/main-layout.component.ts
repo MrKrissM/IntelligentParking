@@ -13,15 +13,18 @@ import { HeaderComponent } from '../header/header.component';
   styleUrl: './main-layout.component.css'
 })
 export class MainLayoutComponent {
+  constructor(private router: Router, private authService: AuthService) {}
 
-  constructor(private router: Router) {}
+  logout(): void {
+    this.authService.logout();
+  }
+  
 
-  ngOnInit() {
-    // Aquí puedes cargar datos reales desde un servicio
-  }
-  logout() {
-    // Implementa la lógica de cierre de sesión aquí
-    localStorage.removeItem('isLoggedIn');
-    this.router.navigate(['/login']);
-  }
+    toggleDropdown(event: MouseEvent): void {
+      event.preventDefault(); 
+      const userDropdown = document.getElementById('dropdownUser1');
+      if (userDropdown) {
+        userDropdown.click(); 
+      }
+    }
 }

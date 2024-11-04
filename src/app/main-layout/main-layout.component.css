@@ -4,3 +4,19 @@
     background-color: #000563;
     color: #fff; /* Color de texto por defecto */
   }
+
+  .dropdown button {
+    background-color: #dc3545; /* Color rojo de Bootstrap */
+    color: white; /* Texto blanco */
+    border: none; /* Sin borde */
+    padding: 10px 15px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Manita al pasar el mouse */
+    font-size: 16px; /* Tamaño de fuente */
+    transition: background-color 0.3s ease; /* Animación en el hover */
+  }
+  
+  .dropdown button:hover {
+    background-color: #c82333; /* Color rojo más oscuro en hover */
+  }
+  

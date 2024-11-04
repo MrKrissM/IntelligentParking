@@ -1,8 +1,21 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap, of } from 'rxjs';
 import { Router } from '@angular/router';
+
+interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+interface LoginResponse {
+  ok: boolean;
+  token: string;
+  user: {
+    id: string;
+    email: string;
+  };
+}
 
 @Injectable({
   providedIn: 'root'
@@ -15,34 +28,29 @@ export class AuthService {
     this.tokenSubject = new BehaviorSubject<string | null>(localStorage.getItem('token'));
   }
 
-  register(user: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, user);
-  }
-
-  login(credentials: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
-      tap((response: any) => {
+  login(credentials: LoginCredentials): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, credentials).pipe(
+      tap((response) => {
         if (response.token) {
           localStorage.setItem('token', response.token);
+          localStorage.setItem('user', JSON.stringify(response.user));
           this.tokenSubject.next(response.token);
         }
       })
     );
   }
 
-  logout(): Observable<any> {
-    // Si necesitas hacer una llamada al backend para cerrar sesión, descomenta la siguiente línea
-    // return this.http.post(`${this.apiUrl}/logout`, {}).pipe(
-    //   tap(() => this.clearSession())
-    // );
-
-    // Si no necesitas hacer una llamada al backend, simplemente limpia la sesión y devuelve un Observable
+  logout(): void {
+    console.log("Token antes de hacer logout:", this.getToken());
     this.clearSession();
-    return of(null);
+    console.log("Token después de hacer logout:", this.getToken());
+
   }
 
   private clearSession(): void {
+    console.log("Cierre de sesión en progreso...");
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     this.tokenSubject.next(null);
     this.router.navigate(['/login']);
   }
@@ -51,15 +59,20 @@ export class AuthService {
     return this.tokenSubject.value;
   }
 
+  getUser(): any {
+    const userString = localStorage.getItem('user');
+    return userString ? JSON.parse(userString) : null;
+  }
+
   isLoggedIn(): boolean {
-    return !!this.getToken();
+    const token = this.getToken();
+    return !!token && !this.isTokenExpired(token);
   }
 
-  getUserProfile(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/profile`);
+  private isTokenExpired(token: string): boolean {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const currentTime = Math.floor(Date.now() / 1000);
+    return payload.exp < currentTime; // Retorna true si ha expirado
   }
 
-  updateUserProfile(profileData: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/profile`, profileData);
-  }
 }
