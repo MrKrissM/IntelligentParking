@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
 import { HeaderComponent } from '../header/header.component';
@@ -12,8 +12,14 @@ import { HeaderComponent } from '../header/header.component';
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.css'
 })
-export class MainLayoutComponent {
-  constructor(private router: Router, private authService: AuthService) {}
+export class MainLayoutComponent implements OnInit {
+  isAdmin: boolean = false;
+
+  constructor(private router: Router, public authService: AuthService) {}
+  
+  ngOnInit() {
+    this.isAdmin = this.authService.isAdmin();
+  }
 
   logout(): void {
     this.authService.logout();

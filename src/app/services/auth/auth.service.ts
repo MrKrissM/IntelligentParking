@@ -14,6 +14,7 @@ interface LoginResponse {
   user: {
     id: string;
     email: string;
+    role: string; // Agregamos el role que viene de la API
   };
 }
 
@@ -23,9 +24,11 @@ interface LoginResponse {
 export class AuthService {
   private apiUrl = 'http://localhost:3000/api';
   private tokenSubject: BehaviorSubject<string | null>;
+  private userRoleSubject: BehaviorSubject<string | null>;
 
   constructor(private http: HttpClient, private router: Router) {
-    this.tokenSubject = new BehaviorSubject<string | null>(localStorage.getItem('token'));
+    this.tokenSubject = new BehaviorSubject(localStorage.getItem('token'));
+    this.userRoleSubject = new BehaviorSubject(this.getUserRole());
   }
 
   login(credentials: LoginCredentials): Observable<LoginResponse> {
@@ -35,16 +38,30 @@ export class AuthService {
           localStorage.setItem('token', response.token);
           localStorage.setItem('user', JSON.stringify(response.user));
           this.tokenSubject.next(response.token);
+          this.userRoleSubject.next(response.user.role);
         }
       })
     );
   }
 
-  logout(): void {
-    console.log("Token antes de hacer logout:", this.getToken());
-    this.clearSession();
-    console.log("Token después de hacer logout:", this.getToken());
+    // Método para obtener el rol del usuario
+    getUserRole(): string | null {
+      const user = this.getUser();
+      return user ? user.role : null;
+    }
+  
+    // Método para verificar si el usuario es admin
+    isAdmin(): boolean {
+      return this.getUserRole() === 'admin';
+    }
+  
+    // Método para verificar si el usuario es un usuario normal
+    isUser(): boolean {
+      return this.getUserRole() === 'user';
+    }
 
+  logout(): void {
+    this.clearSession();
   }
 
   private clearSession(): void {
@@ -72,7 +89,7 @@ export class AuthService {
   private isTokenExpired(token: string): boolean {
     const payload = JSON.parse(atob(token.split('.')[1]));
     const currentTime = Math.floor(Date.now() / 1000);
-    return payload.exp < currentTime; // Retorna true si ha expirado
+    return payload.exp < currentTime;
   }
 
 }

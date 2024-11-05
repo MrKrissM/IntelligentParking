@@ -1,13 +1,12 @@
 <app-header></app-header>
 <div class="d-flex">
-
     <!-- Sidebar -->
     <nav id="sidebar" class="sidebar d-flex flex-column flex-shrink-0 p-3" style="width: 250px; height: 100vh; background-color: #000563;">
-      <a routerLink="/dashboard" href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-        
+      <a routerLink="/dashboard" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
       </a>
       <hr>
       <ul class="nav nav-pills flex-column mb-auto">
+        <!-- Opciones comunes para todos los usuarios -->
         <li class="nav-item">
           <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
             <i class="fas fa-tachometer-alt me-2"></i>
@@ -32,22 +31,42 @@
             Vehículos
           </a>
         </li>
-        <li>
-          <a routerLink="/reports" routerLinkActive="active" class="nav-link">
-            <i class="fas fa-chart-bar me-2"></i>
-            Reportes
-          </a>
-        </li>
+
+        <!-- Opciones solo para administradores -->
+        <ng-container *ngIf="isAdmin">
+          <li>
+            <a routerLink="/reports" routerLinkActive="active" class="nav-link">
+              <i class="fas fa-chart-bar me-2"></i>
+              Reportes
+            </a>
+          </li>
+          <li>
+            <a routerLink="/users" routerLinkActive="active" class="nav-link">
+              <i class="fas fa-users me-2"></i>
+              Gestión de Usuarios
+            </a>
+          </li>
+        </ng-container>
       </ul>
       <hr>
-      <div class="dropdown">
-        <button class="btn btn-danger" (click)="logout(); $event.stopPropagation();">Cerrar Sesión</button>
+      <div class="user-info mb-3 text-white">
+        <div class="d-flex align-items-center mb-2">
+          <i class="fas fa-user-circle me-2"></i>
+          <span>{{ authService.getUser()?.email }}</span>
+        </div>
+        <span class="badge" [ngClass]="{'bg-danger': isAdmin, 'bg-primary': !isAdmin}">
+          {{ isAdmin ? 'Administrador' : 'Usuario' }}
+        </span>
       </div>
-     
+      <div class="dropdown">
+        <button class="btn btn-danger w-100" (click)="logout(); $event.stopPropagation();">
+          <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+        </button>
+      </div>
     </nav>
     
     <!-- Main content -->
     <div class="main-content flex-grow-1 p-3">
       <router-outlet></router-outlet>
     </div>
-  </div>
+</div>
