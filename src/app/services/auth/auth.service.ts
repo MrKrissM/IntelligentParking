@@ -30,6 +30,9 @@ export class AuthService {
     this.tokenSubject = new BehaviorSubject(localStorage.getItem('token'));
     this.userRoleSubject = new BehaviorSubject(this.getUserRole());
   }
+  setUserRole(role: string) {
+    this.userRoleSubject.next(role);
+  }
 
   login(credentials: LoginCredentials): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, credentials).pipe(
@@ -38,7 +41,9 @@ export class AuthService {
           localStorage.setItem('token', response.token);
           localStorage.setItem('user', JSON.stringify(response.user));
           this.tokenSubject.next(response.token);
-          this.userRoleSubject.next(response.user.role);
+          this.setUserRole(response.user.role);
+        } else {
+          console.error("Login fallido: ", response);
         }
       })
     );
@@ -47,15 +52,13 @@ export class AuthService {
     // Método para obtener el rol del usuario
     getUserRole(): string | null {
       const user = this.getUser();
-      return user ? user.role : null;
+      return user ? user.role : 'guest';
     }
   
-    // Método para verificar si el usuario es admin
     isAdmin(): boolean {
       return this.getUserRole() === 'admin';
     }
   
-    // Método para verificar si el usuario es un usuario normal
     isUser(): boolean {
       return this.getUserRole() === 'user';
     }
@@ -78,7 +81,7 @@ export class AuthService {
 
   getUser(): any {
     const userString = localStorage.getItem('user');
-    return userString ? JSON.parse(userString) : null;
+    return userString ? JSON.parse(userString) : {};
   }
 
   isLoggedIn(): boolean {
