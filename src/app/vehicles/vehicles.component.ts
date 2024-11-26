@@ -13,7 +13,14 @@ import { VehicleService, Vehicle } from '../services/vehicle/vehicle.service';
 export class VehiclesComponent implements OnInit {
   vehicles: Vehicle[] = [];
   
-  // Variables para manejar el modo de edición
+  // Form data binding con valores iniciales más completos
+  vehicleForm = {
+    plate: '',
+    model: '',
+    brand: '',
+    color: ''
+  };
+  
   isEditing = false;
   currentVehicle: Vehicle | null = null;
 
@@ -23,7 +30,6 @@ export class VehiclesComponent implements OnInit {
     this.loadVehicles();
   }
 
-  // Método para cargar vehículos
   loadVehicles(): void {
     this.vehicleService.getVehicles().subscribe({
       next: (vehicles: Vehicle[]) => {
@@ -37,31 +43,27 @@ export class VehiclesComponent implements OnInit {
     });
   }
 
-  // Método para iniciar la edición
   startEdit(vehicle: Vehicle): void {
     this.isEditing = true;
-    this.currentVehicle = { ...vehicle }; // Crea una copia para evitar modificaciones directas
+    this.currentVehicle = { ...vehicle };
 
-    // Llenar los inputs con los datos del vehículo
-    const plateInput = document.getElementById('plate') as HTMLInputElement;
-    const modelInput = document.getElementById('model') as HTMLInputElement;
-    const brandInput = document.getElementById('brand') as HTMLInputElement;
-    const colorInput = document.getElementById('color') as HTMLInputElement;
-
-    plateInput.value = vehicle.plate;
-    modelInput.value = vehicle.model || '';
-    brandInput.value = vehicle.brand || '';
-    colorInput.value = vehicle.color || '';
+    // Copiar todos los datos del vehículo al formulario
+    this.vehicleForm = {
+      plate: vehicle.plate,
+      model: vehicle.model || '',
+      brand: vehicle.brand || '',
+      color: vehicle.color || ''
+    };
   }
 
-  // Método para eliminar un vehículo
   deleteVehicle(vehicle: Vehicle): void {
     if (vehicle.id) {
       this.vehicleService.deleteVehicle(vehicle.id).subscribe({
         next: (success: boolean) => {
           if (success) {
+            // Filtrar el vehículo eliminado de la lista local
+            this.vehicles = this.vehicles.filter(v => v.id !== vehicle.id);
             console.log('Vehículo eliminado con éxito');
-            this.loadVehicles();
           } else {
             console.error('No se pudo eliminar el vehículo');
           }
@@ -73,27 +75,31 @@ export class VehiclesComponent implements OnInit {
     }
   }
 
-  // Método para agregar/actualizar vehículo
   addVehicle(): void {
-    const plateInput = document.getElementById('plate') as HTMLInputElement;
-    const modelInput = document.getElementById('model') as HTMLInputElement;
-    const brandInput = document.getElementById('brand') as HTMLInputElement;
-    const colorInput = document.getElementById('color') as HTMLInputElement;
+    // Validación de placa obligatoria
+    if (!this.vehicleForm.plate.trim()) {
+      alert('La placa es obligatoria');
+      return;
+    }
 
     if (this.isEditing && this.currentVehicle) {
       // Modo edición
       const updatedVehicle: Vehicle = {
         ...this.currentVehicle,
-        plate: plateInput.value,
-        model: modelInput.value || undefined,
-        brand: brandInput.value || undefined,
-        color: colorInput.value || undefined
+        plate: this.vehicleForm.plate,
+        model: this.vehicleForm.model || undefined,
+        brand: this.vehicleForm.brand || undefined,
+        color: this.vehicleForm.color || undefined
       };
 
       this.vehicleService.updateVehicle(this.currentVehicle.id!, updatedVehicle).subscribe({
         next: (vehicle: Vehicle | null) => {
           if (vehicle) {
-            this.loadVehicles();
+            // Actualizar el vehículo en la lista local
+            const index = this.vehicles.findIndex(v => v.id === vehicle.id);
+            if (index !== -1) {
+              this.vehicles[index] = vehicle;
+            }
             this.resetForm();
           }
         },
@@ -104,17 +110,20 @@ export class VehiclesComponent implements OnInit {
     } else {
       // Modo añadir nuevo
       const newVehicle: Vehicle = {
-        plate: plateInput.value,
-        model: modelInput.value || undefined,
-        brand: brandInput.value || undefined,
-        color: colorInput.value || undefined
+        plate: this.vehicleForm.plate,
+        model: this.vehicleForm.model || undefined,
+        brand: this.vehicleForm.brand || undefined,
+        color: this.vehicleForm.color || undefined
       };
 
       this.vehicleService.createVehicle(newVehicle).subscribe({
         next: (vehicle: Vehicle | null) => {
           if (vehicle) {
-            this.loadVehicles();
+            // Agregar el nuevo vehículo a la lista local
+            this.vehicles.push(vehicle);
             this.resetForm();
+          } else {
+            console.error('No se pudo crear el vehículo');
           }
         },
         error: (error) => {
@@ -124,23 +133,18 @@ export class VehiclesComponent implements OnInit {
     }
   }
 
-  // Método para resetear el formulario
   resetForm(): void {
     this.isEditing = false;
     this.currentVehicle = null;
-
-    const plateInput = document.getElementById('plate') as HTMLInputElement;
-    const modelInput = document.getElementById('model') as HTMLInputElement;
-    const brandInput = document.getElementById('brand') as HTMLInputElement;
-    const colorInput = document.getElementById('color') as HTMLInputElement;
-
-    plateInput.value = '';
-    modelInput.value = '';
-    brandInput.value = '';
-    colorInput.value = '';
+    // Reiniciar todos los campos del formulario
+    this.vehicleForm = {
+      plate: '',
+      model: '',
+      brand: '',
+      color: ''
+    };
   }
 
-  // Método para cancelar la edición
   cancelEdit(): void {
     this.resetForm();
   }

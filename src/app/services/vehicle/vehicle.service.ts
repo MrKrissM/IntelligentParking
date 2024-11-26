@@ -18,6 +18,7 @@ interface ApiResponse {
   ok?: boolean;
   data?: Vehicle[];
   vehicles?: Vehicle[];
+  vehicle?: Vehicle;  // Añade esta línea para manejar respuestas con un solo vehículo
   message?: string;
 }
 
@@ -87,13 +88,20 @@ export class VehicleService {
   createVehicle(vehicleData: Vehicle): Observable<Vehicle | null> {
     return this.http.post<ApiResponse>(this.apiUrl, vehicleData, { headers: this.getHeaders() }).pipe(
       map((response: ApiResponse) => {
-        // Intenta obtener el vehículo creado de diferentes formas
-        if (response.data && response.data.length > 0) {
+        console.log('Respuesta del backend:', response);
+        
+        // Verifica la estructura de la respuesta
+        if (response.ok && response.data) {
           return response.data[0];
+        }
+        if (response.vehicle) {
+          return response.vehicle;
         }
         if (response.vehicles && response.vehicles.length > 0) {
           return response.vehicles[0];
         }
+        
+        console.warn('Estructura de respuesta inesperada:', response);
         return null;
       }),
       catchError(error => {
@@ -102,21 +110,22 @@ export class VehicleService {
       })
     );
   }
-
   updateVehicle(id: string, vehicleData: Vehicle): Observable<Vehicle | null> {
     return this.http.put<ApiResponse>(`${this.apiUrl}/${id}`, vehicleData, { headers: this.getHeaders() }).pipe(
       map((response: ApiResponse) => {
-        // Maneja diferentes estructuras de respuesta
-        if (response.data && response.data.length > 0) {
-          return response.data[0];
+        console.log('Respuesta de actualización:', response);
+        
+        if (response.ok) {
+          if (response.data && response.data.length > 0) return response.data[0];
+          if (response.vehicle) return response.vehicle;
+          if (response.vehicles && response.vehicles.length > 0) return response.vehicles[0];
         }
-        if (response.vehicles && response.vehicles.length > 0) {
-          return response.vehicles[0];
-        }
+        
+        console.warn('Estructura de respuesta inesperada:', response);
         return null;
       }),
       catchError(error => {
-        console.error('Error al actualizar vehículo:', error);
+        console.error('Error detallado al actualizar:', error);
         return of(null);
       })
     );
