@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 
 // Interfaz para definir la estructura de un vehículo
 export interface Vehicle {
+  [x: string]: string | undefined;
   id?: string;
   plate: string;
   model?: string;
   brand?: string;
   color?: string;
+  type?: string;
 }
 
 // Interfaz para manejar diferentes formatos de respuesta
@@ -42,26 +44,21 @@ export class VehicleService {
     });
   }
 
-  // Método para obtener vehículos con manejo de diferentes estructuras de respuesta
   getVehicles(): Observable<Vehicle[]> {
     return this.http.get<ApiResponse>(this.apiUrl, { headers: this.getHeaders() }).pipe(
       map((response: ApiResponse) => {
-        // Intenta diferentes formas de obtener el array de vehículos
-        if (Array.isArray(response)) {
-          return response;
+        // Mapea los vehículos asegurándote de incluir el ID
+        if (response.vehicles) {
+          return response.vehicles.map(vehicle => ({
+            ...vehicle,
+            id: vehicle['_id'] || vehicle.id  // Maneja diferentes formatos de ID
+          }));
         }
-        if (response.vehicles && Array.isArray(response.vehicles)) {
-          return response.vehicles;
-        }
-        if (response.data && Array.isArray(response.data)) {
-          return response.data;
-        }
-        console.warn('Estructura de respuesta inesperada:', response);
         return [];
       }),
       catchError(error => {
         console.error('Error al obtener vehículos:', error);
-        return of([]); // Devuelve un array vacío en caso de error
+        return of([]);
       })
     );
   }
@@ -132,15 +129,16 @@ export class VehicleService {
   }
 
   deleteVehicle(id: string): Observable<boolean> {
-    return this.http.delete<ApiResponse>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() }).pipe(
-      map((response: ApiResponse) => {
-        // Verifica si la operación fue exitosa
-        return response.ok === true;
-      }),
+    const url = `${this.apiUrl}/${id}`;
+    
+    return this.http.delete<{ok: boolean}>(url, { headers: this.getHeaders() }).pipe(
+      tap(response => console.log('Respuesta de eliminación:', response)),
+      map(response => response.ok),
       catchError(error => {
         console.error('Error al eliminar vehículo:', error);
         return of(false);
       })
     );
   }
+
 }

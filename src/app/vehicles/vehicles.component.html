@@ -74,11 +74,11 @@
       <tbody>
         <tr *ngFor="let vehicle of vehicles; index as i">
           <td>{{ i + 1 }}</td>
-          <td>{{ vehicle.plate }}</td>
-          <td>{{ vehicle.model }}</td>
-          <td>{{ vehicle.brand }}</td>
-          <td>{{ vehicle.color }}</td>
-          <td>
+        <td>{{ vehicle.plate }}</td>
+        <td>{{ vehicle.model || 'N/A' }}</td>
+        <td>{{ vehicle.brand || 'N/A' }}</td>
+        <td>{{ vehicle.color || 'N/A' }}</td>
+        <td>
             <button class="btn btn-warning btn-sm me-1" (click)="startEdit(vehicle)">Editar</button>
             <button class="btn btn-danger btn-sm" (click)="deleteVehicle(vehicle)">Eliminar</button>
           </td>

@@ -61,7 +61,6 @@ export class VehiclesComponent implements OnInit {
       this.vehicleService.deleteVehicle(vehicle.id).subscribe({
         next: (success: boolean) => {
           if (success) {
-            // Filtrar el vehículo eliminado de la lista local
             this.vehicles = this.vehicles.filter(v => v.id !== vehicle.id);
             console.log('Vehículo eliminado con éxito');
           } else {
@@ -72,6 +71,9 @@ export class VehiclesComponent implements OnInit {
           console.error('Error al eliminar vehículo:', error);
         }
       });
+    } else {
+      console.error('Detalles completos del vehículo:', vehicle);
+      alert('No se puede eliminar: ID no definido');
     }
   }
 
