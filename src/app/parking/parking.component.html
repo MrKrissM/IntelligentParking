@@ -1,7 +1,34 @@
-<div class="parking-map">
-    <h2>Mapa de Estacionamiento</h2>
-    <p>Visualiza el mapa del estacionamiento y elige tu lugar disponible.</p>
-    <!-- Aquí podrías integrar Google Maps o un mapa personalizado -->
-    <img src="assets/images/vialidad.jpg" alt="Mapa de estacionamiento" class="img-fluid">
+<div class="parking-container">
+  <h1>Mapa de Estacionamiento</h1>
+  <p>Visualiza el mapa del estacionamiento y elige tu lugar disponible.</p>
+
+  <div class="parking-lots">
+    <h2>Selecciona un Estacionamiento</h2>
+    <div class="lots-grid">
+      <div 
+        *ngFor="let lot of parkingLots" 
+        class="parking-lot-card"
+        (click)="selectParkingLot(lot)"
+        [class.selected]="selectedParkingLot?._id === lot._id"
+      >
+        <h3>{{ lot.name }}</h3>
+        <p>{{ lot.address }}</p>
+        <p>Pisos: {{ lot.floors }}</p>
+        <p>Espacios totales: {{ lot.totalSpots }}</p>
+      </div>
+    </div>
   </div>
-  
+
+  <div *ngIf="selectedParkingLot" class="parking-spots">
+    <h2>Espacios de {{ selectedParkingLot.name }}</h2>
+    <div class="spots-grid">
+      <div 
+        *ngFor="let spot of parkingSpots" 
+        class="parking-spot"
+        [class.occupied]="spot.isOccupied"
+      >
+        {{ spot.number }}
+      </div>
+    </div>
+  </div>
+</div>
