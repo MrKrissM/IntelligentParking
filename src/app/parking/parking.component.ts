@@ -33,6 +33,11 @@ export class ParkingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // Verificar si el usuario está logueado antes de cargar los estacionamientos
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.loadParkingLots();
   }
 
@@ -43,6 +48,9 @@ export class ParkingComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 401) {
+             // Redirigir al login si no está autorizado
+           //  this.authService.logout();
+        //     this.router.navigate(['/login']);
         } else {
           console.error('Error al cargar los estacionamientos', error);
         }

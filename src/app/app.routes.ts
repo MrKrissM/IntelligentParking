@@ -19,7 +19,6 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      // Rutas accesibles para todos los usuarios autenticados
       { path: 'dashboard', component: DashboardComponent },
       { path: 'vehicles', component: VehiclesComponent },
       { path: 'user-profile', component: UserProfileComponent },
