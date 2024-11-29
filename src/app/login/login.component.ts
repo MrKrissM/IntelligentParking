@@ -38,10 +38,10 @@ export class LoginComponent {
 
     this.authService.login(credentials).subscribe({
       next: (response) => {
-        console.log('Login exitoso', response);
+        (response);
         this.loading = false;
         this.router.navigate(['/dashboard']);
-        console.log('Token guardado:', localStorage.getItem('token'));
+        localStorage.getItem('token');
       },
       error: (error) => {
         console.error('Error en el login', error);
