@@ -155,3 +155,15 @@
 .btn-save:hover {
   background-color: #218838;
 }
+.btn-add-user {
+  margin-bottom: 15px;
+  background-color: #28a745;
+  color: white;
+}
+
+.registration-form-container {
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}

@@ -4,12 +4,12 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { UserService } from '../services/user/user.service';
 import { AuthService } from '../services/auth/auth.service';
 import { ToastService } from '../services/toast/toast.service';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   standalone: true,
   selector: 'app-user-profile',
-  imports: [RouterOutlet,CommonModule,RouterModule,FormsModule],
+  imports: [RouterOutlet,CommonModule,RouterModule,FormsModule,ReactiveFormsModule],
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css']
 })
@@ -17,12 +17,25 @@ import { FormsModule } from '@angular/forms';
 export class UserProfileComponent implements OnInit {
   users: any[] = [];
   selectedUser: any = null;
+    // Agregar variable para mostrar/ocultar el formulario de registro
+    showRegistrationForm = false;
+    // Agregar formulario de registro
+    registrationForm: FormGroup;
 
   constructor(
     private userService: UserService,
     public authService: AuthService,
-    private toast: ToastService
-  ) {}
+    private toast: ToastService,
+    private fb: FormBuilder
+  ) {
+      // Inicializar el formulario de registro
+      this.registrationForm = this.fb.group({
+        username: ['', [Validators.required]],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        role: ['user', Validators.required]
+      });
+  }
 
   ngOnInit() {
     if (this.authService.isAdmin()) {
@@ -35,6 +48,7 @@ export class UserProfileComponent implements OnInit {
       next: (response) => {
         if (response.ok) {
           this.users = response.users;
+          console.log('Usuarios cargados:', this.users); // Agrega este log
         }
       },
       error: (err) => {
@@ -76,25 +90,61 @@ export class UserProfileComponent implements OnInit {
   }
 
 
-// Cambia .filter(user => user.id !== userId)
-// a .filter(user => user._id !== userId)
-deleteUser(userId: string) {
-  if (confirm('Are you sure you want to delete this user?')) {
-    this.userService.deleteUser(userId).subscribe({
-      next: (response) => {
-        if (response.ok) {
-          this.users = this.users.filter(user => user._id !== userId);
-          this.toast.showSuccess(response.message);
+  deleteUser(userId: string) {
+    console.log('ID de usuario a eliminar:', userId);
+  
+    if (!userId) {
+      console.error('ID de usuario no válido');
+      this.toast.showError('No se proporcionó un ID de usuario válido');
+      return;
+    }
+  
+    const confirmDelete = confirm(`¿Estás seguro de eliminar este usuario?`);
+    
+    if (confirmDelete) {
+      this.userService.deleteUser(userId).subscribe({
+        next: (response) => {
+          console.log('Respuesta de eliminación:', response);
+          this.toast.showSuccess('Usuario eliminado exitosamente');
+          this.loadUsers(); // Recargar la lista de usuarios
+        },
+        error: (error) => {
+          console.error('Error detallado al eliminar:', error);
+          this.toast.showError(error.error?.message || 'Error al eliminar usuario');
         }
-      },
-      error: (err) => {
-        this.toast.showError('Error deleting user');
-        console.error('Error deleting user', err);
-      }
-    });
+      });
+    }
   }
-}
 
+  // Método para mostrar/ocultar el formulario de registro
+  toggleRegistrationForm() {
+    this.showRegistrationForm = !this.showRegistrationForm;
+  }
+    // Método para registrar usuario
+    registerUser() {
+      if (this.registrationForm.valid) {
+        this.userService.registerUser(this.registrationForm.value).subscribe({
+          next: (response) => {
+            this.toast.showSuccess('Usuario registrado exitosamente');
+            // Recargar la lista de usuarios
+            this.loadUsers();
+            // Ocultar el formulario de registro
+            this.showRegistrationForm = false;
+            // Resetear el formulario
+            this.registrationForm.reset({ role: 'user' });
+          },
+          error: (error) => {
+            this.toast.showError(error.error.message || 'Error al registrar usuario');
+          }
+        });
+      }
+    }
+  
+    // Método para cancelar el registro
+    cancelRegistration() {
+      this.showRegistrationForm = false;
+      this.registrationForm.reset({ role: 'user' });
+    }
 
 
 }

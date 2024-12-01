@@ -10,6 +10,7 @@ import { AboutComponent } from './about/about.component';
 import { ParkingComponent } from './parking/parking.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ReservationsComponent } from './reservations/reservations.component';
+import { UserRegistrationComponent } from './register/register.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -36,6 +37,11 @@ export const routes: Routes = [
         path: 'users', 
         component: UserProfileComponent,
         canActivate: [AdminGuard]
+      },
+      {
+        path: 'register-user', 
+        component: UserRegistrationComponent,
+        canActivate: [AdminGuard] 
       }
     ]
   },
