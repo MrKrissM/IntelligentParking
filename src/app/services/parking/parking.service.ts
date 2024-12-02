@@ -4,12 +4,15 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ParkingService {
-  private apiUrl = 'http://localhost:3000/api/parkingLots';
+  private apiUrl = `${environment.apiUrl}/parkingLots`; // Usa la URL del environment
+
+  // private apiUrl = 'http://localhost:3000/api/parkingLots';
 
   constructor(
     private http: HttpClient,
@@ -96,6 +99,16 @@ export class ParkingService {
 
   createOccupation(occupationData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/occupations`, occupationData);
+  }
+
+  createSpots(parkingLotId: string, quantity: number): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/${parkingLotId}/spots/create`,
+      { quantity },
+      { headers: this.getHeaders() }
+    ).pipe(
+      catchError(this.handleError.bind(this))
+    );
   }
 
 

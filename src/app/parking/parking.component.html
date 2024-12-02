@@ -30,72 +30,116 @@
   </div>
 
   <!-- Modal para crear/editar estacionamiento -->
-  <div *ngIf="isCreateModalOpen" class="modal-overlay">
-    <div class="modal-container">
-      <h2>{{ isEditing ? 'Editar' : 'Crear' }} Estacionamiento</h2>
-      <form (ngSubmit)="saveParkingLot()" class="modal-form">
-        <div class="form-group">
-          <label for="name">Nombre</label>
-          <input 
-            type="text" 
-            id="name" 
-            [(ngModel)]="parkingLotForm.name" 
-            name="name" 
-            required
-          >
+<div *ngIf="isCreateModalOpen" class="modal-overlay">
+  <div class="modal-container">
+    <h2>{{ isEditing ? 'Editar' : 'Crear' }} Estacionamiento</h2>
+    <form (ngSubmit)="saveParkingLot()" class="modal-form">
+      <div class="form-group">
+        <label for="name">Nombre</label>
+        <input 
+          type="text" 
+          id="name" 
+          [(ngModel)]="parkingLotForm.name" 
+          name="name" 
+          required
+        >
+      </div>
+      <div class="form-group">
+        <label for="address">Dirección</label>
+        <input 
+          type="text" 
+          id="address" 
+          [(ngModel)]="parkingLotForm.address" 
+          name="address" 
+          required
+        >
+      </div>
+      <div class="form-group">
+        <label for="floors">Número de Pisos</label>
+        <input 
+          type="number" 
+          id="floors" 
+          [(ngModel)]="parkingLotForm.floors" 
+          name="floors" 
+          min="1" 
+          required
+        >
+      </div>
+      <div class="form-group">
+        <label for="totalSpots">Espacios Totales</label>
+        <input 
+          type="number" 
+          id="totalSpots" 
+          [(ngModel)]="parkingLotForm.totalSpots" 
+          name="totalSpots" 
+          min="1" 
+          required
+        >
+      </div>
+
+      <!-- Agregar esta sección solo cuando se está editando -->
+      <div *ngIf="isEditing" class="spots-management">
+        <h3>Gestión de Espacios</h3>
+        <div class="spots-info">
+          <p>Espacios actuales: {{ selectedParkingLot?.totalSpots || 0 }}</p>
         </div>
         <div class="form-group">
-          <label for="address">Dirección</label>
-          <input 
-            type="text" 
-            id="address" 
-            [(ngModel)]="parkingLotForm.address" 
-            name="address" 
-            required
-          >
+          <label for="additionalSpots">Agregar Espacios</label>
+          <div class="spots-input-group">
+            <input 
+              type="number" 
+              id="additionalSpots" 
+              [(ngModel)]="additionalSpots" 
+              name="additionalSpots" 
+              min="1"
+              placeholder="Cantidad de espacios a agregar"
+            >
+            <button 
+              type="button" 
+              class="btn btn-add-spots"
+              (click)="addSpots()"
+              [disabled]="!additionalSpots || additionalSpots < 1"
+            >
+              Agregar Espacios
+            </button>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="floors">Número de Pisos</label>
-          <input 
-            type="number" 
-            id="floors" 
-            [(ngModel)]="parkingLotForm.floors" 
-            name="floors" 
-            min="1" 
-            required
-          >
-        </div>
-        <div class="form-group">
-          <label for="totalSpots">Espacios Totales</label>
-          <input 
-            type="number" 
-            id="totalSpots" 
-            [(ngModel)]="parkingLotForm.totalSpots" 
-            name="totalSpots" 
-            min="1" 
-            required
-          >
-        </div>
-        <div class="modal-actions">
-          <button type="button" (click)="isCreateModalOpen = false" class="btn btn-cancel">
-            Cancelar
-          </button>
-          <button type="submit" class="btn btn-save">
-            {{ isEditing ? 'Actualizar' : 'Crear' }}
-          </button>
-        </div>
-      </form>
-    </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" (click)="isCreateModalOpen = false" class="btn btn-cancel">
+          Cancelar
+        </button>
+        <button type="submit" class="btn btn-save">
+          {{ isEditing ? 'Actualizar' : 'Crear' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="selectedParkingLot" class="parking-spots">
+  <h2>Espacios de {{ selectedParkingLot.name }}</h2>
+  
+  <div class="floors-navigation">
+    <button 
+      *ngFor="let floor of getFloorRange()" 
+      class="btn btn-floor"
+    >
+      Piso {{ floor }}
+    </button>
   </div>
 
-  <!-- Espacios de estacionamiento -->
-  <div *ngIf="selectedParkingLot" class="parking-spots">
-    <h2>Espacios de {{ selectedParkingLot.name }}</h2>
+  <div *ngFor="let floor of getFloorRange()" class="floor-section">
+    <h3>Piso {{ floor }}</h3>
     <div class="spots-grid">
       <div 
-        *ngFor="let spot of parkingSpots" 
+        *ngFor="let spot of getSpotsByFloor(floor)" 
         class="parking-spot"
-        [class.occupied]="spot.isOccupied"
+        [ngClass]="{
+          'available': !spot.isOccupied,
+          'occupied': spot.isOccupied
+        }"
       >
         {{ spot.number }}
       </div>
